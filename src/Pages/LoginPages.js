@@ -6,10 +6,10 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import SweetAlert from 'sweetalert2-react';
-import Routes from '../Routes';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Menu from '../components/Menu';
-import {BrowserRouter} from 'react-router-dom';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -29,29 +29,58 @@ export default class LoginPages extends Component {
         super(props);
         this.state = {
             email: '',
-            name: ''
+            password: '',
+            errorEmail:false,
+            errorPassword: false,
+            messageErrorEmail: '',
+            messageErrorPassword: ''
         }
-
     }
 
-    getData = (value, property) => {
-        let data = {};
-        data[property] = value;
-        this.setState(data);
-        this.setState({
-            name: this.state.email
-        })
 
+    validateForm(value, property) {
+        let state = {}
+        state[property] = value;
+        this.setState(state);
+        console.log("email: " + this.state.email + " password: " + this.state.password)
+        if (this.state.email == value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && this.state.password == value.length >= 6) {
+            console.log('es match')
+        } else {
+            console.log('no es match')
+        }
     }
 
     submitLogin = () => {
-        this.setState({
-            name: this.state.email
-        })
-    }
-
-    validateForm = () =>{
-        this.setState({ show: true })
+        if (this.state.email === '' && this.state.password === '') {
+            this.setState({
+                errorEmail: true,
+                errorPassword:true,
+                messageErrorEmail: 'Campo Obligatorio',
+                messageErrorPassword: 'Campo Obligatorio'
+            })
+        } else if (this.state.email === '' && !this.state.password === '') {
+            this.setState({
+                errorEmail: true,
+                errorPassword:false,
+                messageErrorEmail: 'Campo Obligatorio',
+                messageErrorPassword: ''
+            })
+        } else if (!this.state.email === '' && this.state.password === '') {
+            this.setState({
+                errorEmail: false,
+                errorPassword:true,
+                messageErrorEmail: '',
+                messageErrorPassword: 'Campo Obligatorio'
+            })
+        } else {
+            this.setState({
+                errorEmail: false,
+                errorPassword:false,
+                messageErrorEmail: '',
+                messageErrorPassword: ''
+            })
+            this.props.history.push('/menu')
+        }
     }
 
     render() {
@@ -63,28 +92,49 @@ export default class LoginPages extends Component {
                             <h4>Coffex</h4>
                         </div>
                         <div>
+
                             <TextField
+                                error={this.state.errorEmail}
                                 id="txt_username"
                                 className={useStyles.textField}
                                 label="Username"
                                 margin="normal"
                                 type="email"
                                 name="email"
+                                helperText={this.state.messageErrorEmail}
                                 variant="outlined"
                                 value={this.state.email}
-                                onChange={(ev) => { this.getData(ev.target.value, 'email') }}
+                                onChange={(event) => {
+                                    this.validateForm(event.target.value, 'email')
+                                }}
                             />
                         </div>
 
                         <div>
                             <TextField
+                                error={this.state.errorPassword}
                                 id="txt_password"
                                 className={useStyles.textField}
                                 label="Password"
                                 margin="normal"
                                 name="password"
+                                helperText={this.state.messageErrorPassword}
                                 type="password"
                                 variant="outlined"
+                                value={this.state.password}
+                                onChange={(event) => {
+                                    this.validateForm(event.target.value, 'password')
+                                }}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                      <IconButton
+                                        aria-label="toggle password visibility"
+                                        
+                                      >
+                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                      </IconButton>
+                                    </InputAdornment>
+                                  }
                             />
                         </div>
 
@@ -95,13 +145,13 @@ export default class LoginPages extends Component {
                                         variant="contained"
                                         color="primary"
                                         onClick={
-                                          this.validateForm
+                                            this.submitLogin
                                         }>Ingresar
                                         </Button>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </CardBody>
                 </Card>
 
@@ -111,9 +161,8 @@ export default class LoginPages extends Component {
                     text="SweetAlert in React js"
                     onConfirm={() => {
                         this.setState({ show: false })
-                        this.props.history.push('/menu')
                     }
-                }
+                    }
                 />
             </div>
         )
