@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 //
 import { Card, CardBody } from 'reactstrap';
@@ -10,6 +10,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Email from '@material-ui/icons/EmailRounded';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import Lock from '@material-ui/icons/LockRounded';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -23,149 +30,178 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default class LoginPages extends Component {
+export default function LoginPages() {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-            errorEmail:false,
-            errorPassword: false,
-            messageErrorEmail: '',
-            messageErrorPassword: ''
-        }
-    }
+    const [values, setValues] = useState({
+        amount: '',
+        weight: '',
+        weightRange: '',
+        showPassword: false
+    });
 
+    const [data, setData] = useState({
+        email: '',
+        password: '',
+        messageErrorEmail:'',
+        messageErrorPassword:''
 
-    validateForm(value, property) {
-        let state = {}
+    });
+
+    const [show, setShow] = useState(true);
+    const [errorEmail, setErrorEmail] = useState(false);
+    const [errorPassword, setErrorPassword] = useState(false);
+
+    let validateForm = (value, property) => {
+        const state = {};
         state[property] = value;
-        this.setState(state);
-        console.log("email: " + this.state.email + " password: " + this.state.password)
-        if (this.state.email == value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && this.state.password == value.length >= 6) {
+        setData({
+            email: state.email,
+            password: state.password
+        })
+
+        console.log("email: " + data.email + " password: " + data.password)
+        if (data.email == value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && data.password == value.length >= 6) {
             console.log('es match')
         } else {
             console.log('no es match')
         }
     }
 
-    submitLogin = () => {
-        if (this.state.email === '' && this.state.password === '') {
-            this.setState({
-                errorEmail: true,
-                errorPassword:true,
-                messageErrorEmail: 'Campo Obligatorio',
-                messageErrorPassword: 'Campo Obligatorio'
+    const submitLogin = () => {
+        if (data.email === '' && data.password === '') {
+            setErrorEmail({errorEmail: true})
+            setErrorPassword({errorPassword: true})
+            setData({
+               messageErrorEmail: 'Campo obligatorio',
+               messageErrorPassword: 'Campo obligatorio' 
             })
-        } else if (this.state.email === '' && !this.state.password === '') {
-            this.setState({
-                errorEmail: true,
-                errorPassword:false,
-                messageErrorEmail: 'Campo Obligatorio',
-                messageErrorPassword: ''
-            })
-        } else if (!this.state.email === '' && this.state.password === '') {
-            this.setState({
-                errorEmail: false,
-                errorPassword:true,
+            
+        } else if (data.email === '' && !data.password === '') {
+            setErrorEmail({errorEmail: true})
+            setErrorPassword({errorPassword: false})
+            setData({
+                messageErrorEmail: 'Campo obligatorio',
+                messageErrorPassword: '' 
+             })
+        } else if (!data.email === '' && data.password === '') {
+            setErrorEmail({errorEmail: false})
+            setErrorPassword({errorPassword: true})
+            setData({
                 messageErrorEmail: '',
-                messageErrorPassword: 'Campo Obligatorio'
-            })
+                messageErrorPassword: 'Campo obligatorio' 
+             })
         } else {
-            this.setState({
-                errorEmail: false,
-                errorPassword:false,
+            setErrorEmail({errorEmail: false})
+            setErrorPassword({errorPassword: false})
+            setData({
                 messageErrorEmail: '',
-                messageErrorPassword: ''
-            })
-            this.props.history.push('/menu')
+                messageErrorPassword: '' 
+             })
+            //this.props.history.push('/menu')
         }
     }
 
-    render() {
-        return (
-            <div className="App container login">
-                <Card>
-                    <CardBody>
-                        <div>
-                            <h4>Coffex</h4>
-                        </div>
-                        <div>
+    const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
 
-                            <TextField
-                                error={this.state.errorEmail}
-                                id="txt_username"
+   
+
+
+    return (
+        <div className="App container login">
+            <Card>
+                <CardBody>
+                    <div>
+                        <h4>Coffex</h4>
+                    </div>
+
+                    <div>
+                        <FormControl variant="outlined" className="inputEmail">
+                            <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
+                            <OutlinedInput
+                                id="txt_email"
+                                error={errorEmail}
                                 className={useStyles.textField}
-                                label="Username"
-                                margin="normal"
-                                type="email"
-                                name="email"
-                                helperText={this.state.messageErrorEmail}
-                                variant="outlined"
-                                value={this.state.email}
+                                type="text"
+                                value={data.email || ''}
                                 onChange={(event) => {
-                                    this.validateForm(event.target.value, 'email')
+                                    validateForm(event.target.value, 'email')
                                 }}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <Email/>
+                                    </InputAdornment>
+                                }
+                                labelWidth={100}
                             />
-                        </div>
+                            <FormHelperText id="outlined-weight-helper-text">{data.messageErrorEmail}</FormHelperText>
+                        </FormControl>
+                    </div>
 
-                        <div>
-                            <TextField
-                                error={this.state.errorPassword}
+                    <p></p>
+                    
+                    <div>
+                        <FormControl variant="outlined">
+                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                            <OutlinedInput
                                 id="txt_password"
+                                error={errorPassword}
                                 className={useStyles.textField}
-                                label="Password"
-                                margin="normal"
-                                name="password"
-                                helperText={this.state.messageErrorPassword}
-                                type="password"
-                                variant="outlined"
-                                value={this.state.password}
+                                type={values.showPassword ? 'text' : 'password'}
+                                value={data.password || ''}
                                 onChange={(event) => {
-                                    this.validateForm(event.target.value, 'password')
+                                    validateForm(event.target.value, 'password')
                                 }}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <Lock/>
+                                    </InputAdornment>
+                                }
                                 endAdornment={
                                     <InputAdornment position="end">
-                                      <IconButton
-                                        aria-label="toggle password visibility"
-                                        
-                                      >
-                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                      </IconButton>
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            
+                                        >
+                                            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
                                     </InputAdornment>
-                                  }
+                                }
+                                labelWidth={100}
                             />
-                        </div>
+                            <FormHelperText id="outlined-weight-helper-text">{data.messageErrorPassword}</FormHelperText>
+                        </FormControl>
+                    </div>
+                    <p></p>
 
-                        <div className="container">
-                            <div className="row">
-                                <div className="col text-center">
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={
-                                            this.submitLogin
-                                        }>Ingresar
+                    <div className="container">
+                        <div className="row">
+                            <div className="col text-center">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={
+                                        submitLogin
+                                    }>Ingresar
                                         </Button>
-                                </div>
                             </div>
                         </div>
+                    </div>
 
-                    </CardBody>
-                </Card>
+                </CardBody>
+            </Card>
 
-                <SweetAlert
-                    show={this.state.show}
-                    title="Demo"
-                    text="SweetAlert in React js"
-                    onConfirm={() => {
-                        this.setState({ show: false })
-                    }
-                    }
-                />
-            </div>
-        )
-    }
+            <SweetAlert
+                show={show}
+                title="Demo"
+                text="SweetAlert in React js"
+                onConfirm={() =>
+                    setShow(false)
 
+                }
+            />
+        </div>
+    )
 }

@@ -20,6 +20,9 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
 }
+.inputEmail{
+  width: 317px;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
