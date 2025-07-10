@@ -1,0 +1,42 @@
+{
+   "411111":{
+      "product":"product",
+      "isSecureEnable":false,
+      "type":"crédito",
+      "isBinVirtual":false,
+      "hasBinVirtual":false,
+      "isClaroPay":false,
+      "cpMessage":"",
+      "cardImage":"http:/bacjkground.jpg",
+      "mark":"visa|mastercard",
+      "code":"110",
+      "name":"ABC CAPITAL"
+   },
+   "426807":{
+      "product":"TDC BANCOPPEL VISA CLASICA",
+      "isSecureEnable":true,
+      "type":"CRÉDITO",
+      "isBinVirtual":false,
+      "hasBinVirtual":false,
+      "isClaroPay":true,
+      "cpMessage":"",
+      "cardImage":"http:/bacjkground.jpg",
+      "mark":"visa|mastercard",
+      "code":"110",
+      "name":"ABC CAPITAL"
+   },
+   "510148":{
+      "product":"TRARJETA DE CREDITO ORO",
+
+      "isSecureEnable":false,
+      "type":"Debito",
+      "isBinVirtual":false,
+      "hasBinVirtual":false,
+      "isClaroPay":false,
+      "cpMessage":"",
+      "cardImage":"http:/bacjkground.jpg",
+      "mark":"visa|mastercard",
+      "code":"110",
+      "name":"ABC CAPITAL"
+   }
+}
