@@ -15763,5 +15763,51 @@
     "claroPay" : false,
     "binVirtual" : false,
     "secureEnable" : true
+  },
+  "411111" : {
+    "product" : "CLASICA",
+    "bin" : "411111",
+    "type" : "DEBITO",
+    "hasBinVirtual" : false,
+    "cpMessage" : "false",
+    "background" : "https://uatmalogos.claropay.com/mejoras_mi_cartera/BancoppelMaster.png",
+    "detailImage" : "https://uatmalogos.claropay.com/mejoras_mi_cartera/BancoppelMasterChip.png",
+    "mark" : "VISA",
+    "code" : "210",
+    "name" : "CITIBANAMEX",
+    "claroPay" : false,
+    "binVirtual" : false,
+    "secureEnable" : true
+  },
+   "422222" : {
+    "product" : "CLASICA",
+    "bin" : "422222",
+    "type" : "CREDITO",
+    "hasBinVirtual" : false,
+    "cpMessage" : "false",
+    "background" : "https://uatmalogos.claropay.com/mejoras_mi_cartera/BancoppelMaster.png",
+    "detailImage" : "https://uatmalogos.claropay.com/mejoras_mi_cartera/BancoppelMasterChip.png",
+    "mark" : "VISA",
+    "code" : "210",
+    "name" : "CITIBANAMEX",
+    "claroPay" : false,
+    "binVirtual" : false,
+    "secureEnable" : true
+  },
+   "510510" : {
+    "product" : "CLASICA",
+    "bin" : "510510",
+    "type" : "DEBITO",
+    "hasBinVirtual" : false,
+    "cpMessage" : "false",
+    "background" : "https://uatmalogos.claropay.com/mejoras_mi_cartera/BancoppelMaster.png",
+    "detailImage" : "https://uatmalogos.claropay.com/mejoras_mi_cartera/BancoppelMasterChip.png",
+    "mark" : "VISA",
+    "code" : "210",
+    "name" : "CITIBANAMEX",
+    "claroPay" : false,
+    "binVirtual" : false,
+    "secureEnable" : true
   }
+
 }
